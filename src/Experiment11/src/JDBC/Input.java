@@ -5,20 +5,31 @@ import java.util.Scanner;
 public class Input {
     public static String _id="";
     public static double _grade=0.0;
-    public static String _name=null;
+    public static String _name="";
     public static int menuOption=0;
     public static boolean askOption=false;
     private static Scanner scanner=null;
+
+    public static void resetInput() {
+        Input._name="";
+        Input._id="";
+        Input._grade=0.0;
+        Input.menuOption=0;
+        Input.askOption=false;
+    }
+
     public Input() {
         super();
         scanner=new Scanner(System.in);
     }
     public void inputAll() {
+        Input.resetInput();
         inputId();
         Input.inputName();
         Input.inputGrade();
     }
     public void inputId() {
+        Input._id="";
         String _ID;
         while(true) {
             System.out.println("Please input the student's ID:");
@@ -33,6 +44,7 @@ public class Input {
         }
     }
     public static void inputName() {
+        Input._name="";
         String _name;
         while(true) {
             System.out.println("Please input the student's name:");
@@ -47,6 +59,7 @@ public class Input {
         }
     }
     public static void inputGrade() {
+        Input._grade=0.0;
         double _grade = 0.0;
         while(true) {
             System.out.println("Please input the student's grade:");

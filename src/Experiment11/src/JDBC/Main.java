@@ -1,5 +1,5 @@
 package JDBC;
-
+//Main类，包括主方法，程序的入口
 
 public class Main {
     public static void main(String args[]) {
@@ -9,11 +9,13 @@ public class Main {
         Input input=new Input();
         while (true) {
             show.listShow();
+            Input.resetInput();
             input.inputMenuOption();
             System.out.println("-------------------------------------");
             if(Input.menuOption==0) {
                 student.dispAll();
             } else if(Input.menuOption==1) {
+                Input.resetInput();
                 input.inputAll();
                 student.add(Input._id,Input._name,Input._grade);
             } else if(Input.menuOption==2) {

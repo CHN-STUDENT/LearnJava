@@ -17,6 +17,7 @@ public class Student {
         this.conn=conn;
     }
     public void add(String id,String name,double grade) {
+        //System.out.println(id);
         findByID(id,true);//删除模式
         if(!isFonud) {
             //添加学生信息
@@ -36,18 +37,25 @@ public class Student {
         } else {
             isFonud = false;
             //要求确认是否要更新信息，如果是更新则更新
-            //TODO:做出预判是否可以更新
+            //做出预判是否可以更新
             System.out.println("您是否要更新该学生信息？");
             Input.inputAskOption();
             if(Input.askOption) {
-                Input.inputName();
-                Input.inputGrade();
                 String sql = "UPDATE Student SET name=?,grade=? WHERE id=?";
+                while(true) {
+                    if(name.equals(_name)&&grade==_grade) {//如果输入的数据和原来数据相同则要求重输
+                        System.out.println("对不起，输入的数据和源数据一样，请您输入不同的数据！");
+                        Input.inputName();
+                        Input.inputGrade();
+                    } else { //更新数据
+                        break;
+                    }
+                }
                 try {
                     preparedStatement = conn.prepareStatement(sql);
-                    preparedStatement.setString(1,Input._name);
-                    preparedStatement.setDouble(2,Input._grade);
-                    preparedStatement.setString(3,id);
+                    preparedStatement.setString(1, Input._name);
+                    preparedStatement.setDouble(2, Input._grade);
+                    preparedStatement.setString(3, id);
                     preparedStatement.executeUpdate();
                     System.out.println("OK");
                     System.out.println("-------------------------------------");
@@ -66,12 +74,13 @@ public class Student {
             if(rs.next()){
                 isFonud=true; //有学生信息
                 rs.beforeFirst();
-                System.out.println("    id       name       grade    ");
+                System.out.println("id        name        grade");
                 while (rs.next()) {
                     _name=rs.getString("name");
                     _id=rs.getString("id");
                     _grade=rs.getDouble("grade");
-                    System.out.println(_id+"   "+_name+"  "+_grade);
+                    //System.out.println(_id+"   "+_name+"  "+_grade);
+                    System.out.printf("%-10s%-10s%3.2f\n",_id,_name,_grade);
                 }
             }
             if(!isFonud) { //没有学生信息
@@ -97,21 +106,22 @@ public class Student {
                 rs.beforeFirst();
                 isFonud=true; //有学生信息
                 if(!delMode)
-                    System.out.println("    id       name       grade    ");
+                    System.out.println("id        name        grade");
                 while (rs.next()) {
                     _name=rs.getString("name");
                     _id=rs.getString("id");
                     _grade=rs.getDouble("grade");
                     if(!delMode) {
-                        System.out.println(_id+"   "+_name+"  "+_grade);
+                        //System.out.println(_id+"   "+_name+"  "+_grade);
+                        System.out.printf("%-10s%-10s%3.2f\n",_id,_name,_grade);
                         System.out.println("-------------------------------------");
                     }
                 }
             } else { //没有学生信息
                 if(!delMode) {
                     System.out.println("没有查询到该学生的信息！");
-                    isFonud=false;
                 }
+                isFonud=false;
                 System.out.println("-------------------------------------");
              }
         } catch (SQLException e) {
@@ -129,12 +139,13 @@ public class Student {
             if(rs.next()){
                 rs.beforeFirst();
                 isFonud=true; //有学生信息
-                System.out.println("    id       name       grade    ");
+                System.out.println("id        name        grade");
                 while (rs.next()) {
                     _name=rs.getString("name");
                     _id=rs.getString("id");
                     _grade=rs.getDouble("grade");
-                    System.out.println(_id+"   "+_name+"  "+_grade);
+                    //System.out.println(_id+"   "+_name+"  "+_grade);
+                    System.out.printf("%-10s%-10s%3.2f\n",_id,_name,_grade);
                 }
             } else { //没有学生信息
                 System.out.println("没有查询到该学生的信息");
@@ -159,8 +170,9 @@ public class Student {
                 preparedStatement=conn.prepareStatement(sql);
                 preparedStatement.executeUpdate();
                 System.out.println("删除以下学生信息成功：");
-                System.out.println("    id       name       grade    ");
-                System.out.println(_id+"   "+_name+"  "+_grade);
+                System.out.println("id        name        grade");
+                //System.out.println(_id+"   "+_name+"  "+_grade);
+                System.out.printf("%-10s%-10s%3.2f\n",_id,_name,_grade);
                 System.out.println("-------------------------------------");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -181,12 +193,13 @@ public class Student {
             if(rs.next()){
                 isFonud=true; //有学生信息
                 rs.beforeFirst();
-                System.out.println("    id       name       grade    ");
+                System.out.println("id        name        grade");
                 while (rs.next()) {
                     _name=rs.getString("name");
                     _id=rs.getString("id");
                     _grade=rs.getDouble("grade");
-                    System.out.println(_id+"       "+_name+"      "+_grade);
+                    //System.out.println(_id+"       "+_name+"      "+_grade);
+                    System.out.printf("%-10s%-10s%3.2f\n",_id,_name,_grade);
                 }
             }
             if(!isFonud) { //没有学生信息
